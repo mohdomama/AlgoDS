@@ -27,7 +27,48 @@ def build_max_heap(array):
         max_heapify(array, i)
 
 
-if __name__ == '__main__':
+def extract_max(array):
+    if len(array) < 1:
+        raise IndexError('Heap Empty!')
+
+    max_el = array[0]
+    array[0] = array[-1]
+    array.pop()
+    max_heapify(array, 0)
+    return max_el
+
+
+def increase_key(array, i, val):
+    if val < array[i]:
+        raise ValueError('Cannot decrease value!')
+
+    array[i] = val
+    parent = int((i+1) / 2) - 1
+    # General formula is floor(i/2)
+
+    while(i > 0 and array[parent] < array[i]):
+        array[parent], array[i] = array[i], array[parent]
+        i = parent
+        parent = parent = int((i+1) / 2) - 1
+
+
+def insert_element(array, elem):
+    array.append(elem)
+    increase_key(array, len(array)-1, elem)
+
+
+
+def main():
     array = [1, 5, 6, 8, 12, 14, 16]
     build_max_heap(array)
     print(array)
+    
+    insert_element(array, 3)
+    print(array)
+
+    insert_element(array, 17)
+    print(array)
+
+
+if __name__ == '__main__':
+    main()
